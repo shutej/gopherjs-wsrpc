@@ -8,8 +8,9 @@ import (
 	"github.com/shutej/gopherjs-test/service"
 )
 
+//go:generate gopherjs build -m main.go
 func main() {
-	conn, _ := websocket.Dial("ws://127.0.0.1:8000/")
+	conn, _ := websocket.Dial("ws://127.0.0.1:8000/jsonrpc")
 	client := rpcplus.NewClientWithCodec(jsonrpc.NewClientCodec(conn))
 	quotient := service.Quotient{}
 	_ = client.Call("Arith.Divide", service.Args{A: 2, B: 4}, &quotient)

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	httpgzip "github.com/daaku/go.httpgzip"
 	"github.com/shutej/flynn/pkg/rpcplus"
 	"github.com/shutej/gopherjs-test/service"
 	"github.com/shutej/gopherjs-test/wsrpc"
@@ -29,5 +30,8 @@ func main() {
 	rpc := rpcplus.NewServer()
 	rpc.Register(new(Arith))
 
-	http.ListenAndServe(":8000", wsrpc.Handler(rpc))
+	http.Handle("/jsonrpc", wsrpc.Handler(rpc))
+	http.Handle("/", http.StripPrefix("/", httpgzip.NewHandler(http.FileServer(http.Dir("static")))))
+
+	http.ListenAndServe(":8000", nil)
 }
