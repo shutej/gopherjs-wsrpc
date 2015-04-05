@@ -6,6 +6,7 @@ import (
 
 	"github.com/shutej/flynn/pkg/rpcplus"
 	"github.com/shutej/gopherjs-test/service"
+	"github.com/shutej/gopherjs-test/wsrpc"
 )
 
 type Arith int
@@ -27,6 +28,6 @@ func (t *Arith) Divide(args *service.Args, quo *service.Quotient) error {
 func main() {
 	rpc := rpcplus.NewServer()
 	rpc.Register(new(Arith))
-	server := NewServer(rpc)
-	http.ListenAndServe(":8000", server.Handler())
+
+	http.ListenAndServe(":8000", wsrpc.Handler(rpc))
 }

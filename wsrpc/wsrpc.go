@@ -1,4 +1,4 @@
-package main
+package wsrpc
 
 import (
 	"net/http"
@@ -12,37 +12,33 @@ func defaultFactory() interface{} {
 	return nil
 }
 
-type Server struct {
+type server struct {
 	server  *rpcplus.Server
 	factory func() interface{}
 }
 
-type Option func(server *Server)
+type Option func(server *server)
 
 func ContextFactory(factory func() interface{}) Option {
-	return func(self *Server) {
+	return func(self *server) {
 		self.factory = factory
 	}
 }
 
-func NewServer(server *rpcplus.Server, options ...Option) *Server {
-	if server == nil {
-		server = rpcplus.NewServer()
+func Handler(s *rpcplus.Server, options ...Option) http.Handler {
+	if s == nil {
+		s = rpcplus.NewServer()
 	}
 
-	self := &Server{
+	self := &server{
 		factory: defaultFactory,
-		server:  server,
+		server:  s,
 	}
 
 	for _, option := range options {
 		option(self)
 	}
 
-	return self
-}
-
-func (self *Server) Handler() http.Handler {
 	return websocket.Handler(func(conn *websocket.Conn) {
 		codec := jsonrpc.NewServerCodec(conn)
 		context := self.factory()

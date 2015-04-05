@@ -10,3 +10,11 @@ To test (for now) do:
     gopherjs-test-server
 
 Then, browse to [http://127.0.0.1:8080/](http://127.0.0.1:8080/)!
+
+TODO:
+
+- [ ] Watch static file(s) that [watches for changes](gopkg.in/fsnotify.v1) and
+  [compresses](http://golang.org/pkg/compress/gzip/#NewWriterLevel).
+  - https://gist.github.com/the42/1956518
+- [ ] Cache-Control:public/ETag/If-None-Match/304 Not Modified
+  - http://en.wikipedia.org/wiki/HTTP_ETag#Typical_usage
