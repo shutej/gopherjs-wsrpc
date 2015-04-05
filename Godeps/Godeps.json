@@ -1,0 +1,38 @@
+{
+	"ImportPath": "github.com/shutej/gopherjs-test",
+	"GoVersion": "go1.4",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/daaku/go.httpgzip",
+			"Rev": "a336c4bfd42faf5b18b9d90dcdfe3b4fc13a8fa5"
+		},
+		{
+			"ImportPath": "github.com/gopherjs/gopherjs/js",
+			"Rev": "3ce70c0afb1aeb8075a6c2b3b52131e987751ce6"
+		},
+		{
+			"ImportPath": "github.com/gopherjs/websocket",
+			"Rev": "867cdcb6edcfa907c935102a8b91c3d85317747c"
+		},
+		{
+			"ImportPath": "github.com/shutej/flynn/pkg/rpcplus",
+			"Comment": "cli-v20140829-177-g6b9385a",
+			"Rev": "6b9385ac052cc67dfb4864677f1f9614cf64553c"
+		},
+		{
+			"ImportPath": "golang.org/x/net/websocket",
+			"Rev": "67f25490433376b5f7da086c0b9283fcdeca3a7b"
+		},
+		{
+			"ImportPath": "honnef.co/go/js/dom",
+			"Rev": "becd8bc108a03c7d16390305b996a6abecf4803f"
+		},
+		{
+			"ImportPath": "honnef.co/go/js/util",
+			"Rev": "96b8dd9d16214b6cd9d8c8e84b3a375da4688108"
+		}
+	]
+}
