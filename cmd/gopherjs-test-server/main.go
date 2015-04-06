@@ -5,9 +5,8 @@ import (
 	"net/http"
 
 	httpgzip "github.com/daaku/go.httpgzip"
-	"github.com/shutej/flynn/pkg/rpcplus"
 	"github.com/shutej/gopherjs-test/service"
-	"github.com/shutej/gopherjs-test/wsrpc"
+	"github.com/shutej/wsrpc/server"
 )
 
 type Arith int
@@ -27,10 +26,9 @@ func (t *Arith) Divide(args *service.Args, quo *service.Quotient) error {
 }
 
 func main() {
-	rpc := rpcplus.NewServer()
-	rpc.Register(new(Arith))
+	handler := server.Handler(server.Register(new(Arith)))
 
-	http.Handle("/jsonrpc", wsrpc.Handler(rpc))
+	http.Handle("/jsonrpc", handler)
 	http.Handle("/", http.StripPrefix("/", httpgzip.NewHandler(http.FileServer(http.Dir("static")))))
 
 	http.ListenAndServe(":8000", nil)

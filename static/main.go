@@ -1,18 +1,22 @@
 package main
 
 import (
+	"fmt"
+	"log"
+
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/gopherjs/websocket"
-	"github.com/shutej/flynn/pkg/rpcplus"
-	"github.com/shutej/flynn/pkg/rpcplus/jsonrpc"
 	"github.com/shutej/gopherjs-test/service"
+	"github.com/shutej/wsrpc/client"
 )
 
 //go:generate gopherjs build -m main.go
 func main() {
-	conn, _ := websocket.Dial("ws://127.0.0.1:8000/jsonrpc")
-	client := rpcplus.NewClientWithCodec(jsonrpc.NewClientCodec(conn))
+	c, err := client.New("ws://127.0.0.1:8000/jsonrpc")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	quotient := service.Quotient{}
-	_ = client.Call("Arith.Divide", service.Args{A: 2, B: 4}, &quotient)
-	js.Global.Get("document").Call("write", "Hello World!")
+	err = c.Call("Arith.Divide", service.Args{A: 9, B: 4}, &quotient)
+	js.Global.Get("document").Call("write", fmt.Sprintf("%#v", quotient))
 }

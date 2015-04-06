@@ -1,6 +1,9 @@
-package wsrpc
+// Package server defines a GopherJS RPC server.  This speaks the Flynn dialect
+// of JSON-RPC over a WebSocket connection to the client.
+package server
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/shutej/flynn/pkg/rpcplus"
@@ -25,14 +28,26 @@ func ContextFactory(factory func() interface{}) Option {
 	}
 }
 
-func Handler(s *rpcplus.Server, options ...Option) http.Handler {
-	if s == nil {
-		s = rpcplus.NewServer()
+func Register(rcvr interface{}) Option {
+	return func(self *server) {
+		if err := self.server.Register(rcvr); err != nil {
+			log.Panic(err)
+		}
 	}
+}
 
+func RegisterName(name string, rcvr interface{}) Option {
+	return func(self *server) {
+		if err := self.server.RegisterName(name, rcvr); err != nil {
+			log.Panic(err)
+		}
+	}
+}
+
+func Handler(options ...Option) http.Handler {
 	self := &server{
 		factory: defaultFactory,
-		server:  s,
+		server:  rpcplus.NewServer(),
 	}
 
 	for _, option := range options {

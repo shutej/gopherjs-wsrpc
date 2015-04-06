@@ -458,6 +458,7 @@ type Document interface {
 	StyleSheets() []StyleSheet      // TODO s/StyleSheet/Stylesheet/ ?
 	StyleSheetSets() []StyleSheet   // TODO correct type?
 	AdoptNode(node Node) Node
+	ImportNode(node Node, deep bool) Node
 	CreateElement(name string) Element
 	CreateElementNS(namespace, name string) Element
 	CreateTextNode(s string) *Text
@@ -691,6 +692,10 @@ func (d document) AdoptNode(node Node) Node {
 	return wrapNode(d.Call("adoptNode", node.Underlying()))
 }
 
+func (d document) ImportNode(node Node, deep bool) Node {
+	return wrapNode(d.Call("importNode", node.Underlying(), deep))
+}
+
 func (d document) CreateElement(name string) Element {
 	return wrapElement(d.Call("createElement", name))
 }
@@ -840,6 +845,8 @@ type Window interface {
 	PostMessage(message string, target string, transfer []interface{})
 	Print()
 	Prompt(prompt string, initial string) string
+	// TODO timestamp argument?
+	RequestAnimationFrame(callback func()) func()
 	ResizeBy(dw, dh int)
 	ResizeTo(w, h int)
 	Scroll(x, y int)
@@ -1080,14 +1087,19 @@ func (w *window) Stop() {
 
 // TODO reuse util.EventTarget
 
-func (w *window) AddEventListener(typ string, useCapture bool, listener func(Event)) func(o *js.Object) {
-	wrapper := func(o *js.Object) { listener(wrapEvent(o)) }
-	w.Call("addEventListener", typ, wrapper, useCapture)
-	return wrapper
+func (w *window) RequestAnimationFrame(callback func()) func() {
+	w.Call("requestAnimationFrame", callback)
+	return callback
 }
 
 func (w *window) RemoveEventListener(typ string, useCapture bool, listener func(*js.Object)) {
 	w.Call("removeEventListener", typ, listener, useCapture)
+}
+
+func (w *window) AddEventListener(typ string, useCapture bool, listener func(Event)) func(o *js.Object) {
+	wrapper := func(o *js.Object) { listener(wrapEvent(o)) }
+	w.Call("addEventListener", typ, wrapper, useCapture)
+	return wrapper
 }
 
 // TODO all the other window methods

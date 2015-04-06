@@ -23,12 +23,20 @@
 			"Rev": "6b9385ac052cc67dfb4864677f1f9614cf64553c"
 		},
 		{
+			"ImportPath": "github.com/shutej/wsrpc/client",
+			"Rev": "05821784a7a2e4674e40a83611204185607b9696"
+		},
+		{
+			"ImportPath": "github.com/shutej/wsrpc/server",
+			"Rev": "05821784a7a2e4674e40a83611204185607b9696"
+		},
+		{
 			"ImportPath": "golang.org/x/net/websocket",
 			"Rev": "67f25490433376b5f7da086c0b9283fcdeca3a7b"
 		},
 		{
 			"ImportPath": "honnef.co/go/js/dom",
-			"Rev": "becd8bc108a03c7d16390305b996a6abecf4803f"
+			"Rev": "fde61d23b5c364a9a666a09070f458279236d4cd"
 		},
 		{
 			"ImportPath": "honnef.co/go/js/util",
