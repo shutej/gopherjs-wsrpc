@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	httpgzip "github.com/daaku/go.httpgzip"
-	"github.com/shutej/gopherjs-test/service"
+	"github.com/shutej/gopherjs-wsrpc/service"
 	"github.com/shutej/wsrpc/server"
 )
 

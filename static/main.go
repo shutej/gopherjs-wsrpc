@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/gopherjs/gopherjs/js"
-	"github.com/shutej/gopherjs-test/service"
+	"github.com/shutej/gopherjs-wsrpc/service"
 	"github.com/shutej/wsrpc/client"
 )
 
